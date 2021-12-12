@@ -21,7 +21,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        moveDirection = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, moveDirection.y, Input.GetAxis("Vertical") * moveSpeed);
+        //  moveDirection = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, moveDirection.y, Input.GetAxis("Vertical") * moveSpeed);
+        moveDirection = (transform.forward*Input.GetAxis("Vertical"))+ (transform.right * Input.GetAxis("Horizontal"));//apply the direction of the game object that is facing for: WS i.e. up down + AS i.e. right left
+        moveDirection = moveDirection.normalized * moveSpeed;
+
         if (controller.isGrounded)
         {//check if controller is attached
             moveDirection.y = 0f;
