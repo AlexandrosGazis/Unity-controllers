@@ -22,9 +22,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //  moveDirection = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, moveDirection.y, Input.GetAxis("Vertical") * moveSpeed);
+        float yStore = moveDirection.y;
         moveDirection = (transform.forward*Input.GetAxis("Vertical"))+ (transform.right * Input.GetAxis("Horizontal"));//apply the direction of the game object that is facing for: WS i.e. up down + AS i.e. right left
         moveDirection = moveDirection.normalized * moveSpeed;
-
+        moveDirection.y = yStore;//after finishing movement
         if (controller.isGrounded)
         {//check if controller is attached
             moveDirection.y = 0f;
