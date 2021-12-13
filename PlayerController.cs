@@ -12,6 +12,13 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 moveDirection;
     public float gravityScale;
+
+    public Transform pivot;
+    public float rotateSpeed;
+
+    public GameObject playerModel;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,5 +43,13 @@ public class PlayerController : MonoBehaviour
         }
         moveDirection.y = moveDirection.y + (gravityScale * Physics.gravity.y);// * Time.deltaTime); //added gravity
         controller.Move(moveDirection * Time.deltaTime);//move player
+
+        // Move player to different direction based on camera's direction
+        if (Input.GetAxis("Horizontal") !=0  || Input.GetAxis("Vertical") != 0) //vertical and input axis are not zero, move the player thus rotate
+        {
+            transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
+            Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
+            playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation,rotateSpeed* Time.deltaTime) ;//apply rotation to the player 
+        }
     }
 }
