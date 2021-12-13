@@ -15,6 +15,9 @@ public class CameraController : MonoBehaviour
 
     public Transform pivot;
 
+    public float maxViewAngle; //how high can the camera go
+    public float minViewAngle; //how low can the camera go
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +44,17 @@ public class CameraController : MonoBehaviour
         float vertical = Input.GetAxis("Mouse Y")* rotateSpeed;
         pivot.Rotate(-vertical,0,0);
         //target.Rotate(-vertical, 0, 0);
+
+        //Limit up-down camera rotation
+        if (pivot.rotation.eulerAngles.x > 45f && pivot.rotation.eulerAngles.x < 180f)//if x angle is more than 45 && les than 180, do not go higher than that
+        {
+            pivot.rotation = Quaternion.Euler(45f,0,0);//limit X rotation: 45 degrees to the left positive Real axis
+        }
+
+        if (pivot.rotation.eulerAngles.x > 180 && pivot.rotation.eulerAngles.x < 315f)// check rotation angles
+        {
+            pivot.rotation = Quaternion.Euler(315f, 0, 0);//limit X rotation: -545 degrees to the  right positive Real axis(360-45)
+        }
 
         //move camera based on target rotation and original offset 
         float desiredYAngle = target.eulerAngles.y;
